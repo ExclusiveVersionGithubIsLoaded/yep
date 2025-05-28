@@ -74,7 +74,7 @@ local Window = Rayfield:CreateWindow({
         Subtitle = "Need a key",
         Note = "Get Key in our discord",
         FileName = "VersionHubKey",
-        SaveKey = true,
+        SaveKey = false,
         GrabKeyFromSite = false,
         Key = {"777"} 
     }
