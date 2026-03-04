@@ -1,0 +1,514 @@
+
+local BANNED_GAME_ID = 4283416256
+local userKey = getgenv().Key or ""
+local serverKey = game:HttpGet("https://crownsoftworks.neocities.org/KKKKEY/LOLOLOLO.txt"):gsub("%s+", "")
+
+if game.PlaceId == BANNED_GAME_ID then
+    
+    if userKey ~= serverKey then
+        return 
+    end
+    
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ExclusiveVersionGithubIsLoaded/CrownSoftworks/refs/heads/main/CopyDiscord.lua"))()
+    return
+end
+
+
+if userKey == serverKey then
+    
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ExclusiveVersionGithubIsLoaded/CrownSoftworks/refs/heads/main/CopyDiscord.lua"))()
+    return
+end
+
+
+local Players          = game:GetService("Players")
+local TweenService     = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local TextService      = game:GetService("TextService")
+local HttpService      = game:GetService("HttpService")
+
+local player     = Players.LocalPlayer
+local playerName = player.Name
+
+local KEY_URL = "https://crownsoftworks.neocities.org/KKKKEY/LOLOLOLO.txt"
+
+local function fetchValidKey()
+    local success, result = pcall(function()
+        return game:HttpGet(KEY_URL)
+    end)
+
+    if success and result then
+        return result:gsub("%s+", "")
+    end
+
+    return nil
+end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name           = "Crsoftksys"
+screenGui.ResetOnSpawn   = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.IgnoreGuiInset = true
+screenGui.Parent         = player:WaitForChild("PlayerGui")
+
+local NORMAL_SIZE = UDim2.new(0, 860, 0, 480)
+local NORMAL_POS  = UDim2.new(0.5, -430, 0.5, -240)
+local TITLE_H     = 32
+
+local window = Instance.new("Frame")
+window.Size             = NORMAL_SIZE
+window.Position         = NORMAL_POS
+window.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+window.BorderSizePixel  = 0
+window.ZIndex           = 2
+window.Parent           = screenGui
+
+local winCorner = Instance.new("UICorner")
+winCorner.CornerRadius = UDim.new(0, 8)
+winCorner.Parent       = window
+
+local winStroke = Instance.new("UIStroke")
+winStroke.Color     = Color3.fromRGB(65, 65, 65)
+winStroke.Thickness = 1
+winStroke.Parent    = window
+
+local titleBar = Instance.new("Frame")
+titleBar.Size             = UDim2.new(1, 0, 0, TITLE_H)
+titleBar.Position         = UDim2.new(0, 0, 0, 0)
+titleBar.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+titleBar.BorderSizePixel  = 0
+titleBar.ZIndex           = 3
+titleBar.Parent           = window
+
+local tbCorner = Instance.new("UICorner")
+tbCorner.CornerRadius = UDim.new(0, 8)
+tbCorner.Parent       = titleBar
+
+local tbFill = Instance.new("Frame")
+tbFill.Size             = UDim2.new(1, 0, 0, 12)
+tbFill.Position         = UDim2.new(0, 0, 1, -12)
+tbFill.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+tbFill.BorderSizePixel  = 0
+tbFill.ZIndex           = 3
+tbFill.Parent           = titleBar
+
+local tbSep = Instance.new("Frame")
+tbSep.Size             = UDim2.new(1, 0, 0, 1)
+tbSep.Position         = UDim2.new(0, 0, 1, 0)
+tbSep.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tbSep.BorderSizePixel  = 0
+tbSep.ZIndex           = 4
+tbSep.Parent           = titleBar
+
+local appIcon = Instance.new("ImageLabel")
+appIcon.Size = UDim2.new(0, 18, 0, 18)
+appIcon.Position = UDim2.new(0, 9, 0.5, -9)
+appIcon.BackgroundTransparency = 1
+appIcon.Image = "rbxassetid://11835491319"
+appIcon.ScaleType = Enum.ScaleType.Fit
+appIcon.ZIndex = 5
+appIcon.Parent = titleBar
+
+local titleLbl = Instance.new("TextLabel")
+titleLbl.Size                   = UDim2.new(1, -160, 1, 0)
+titleLbl.Position               = UDim2.new(0, 32, 0, 0)
+titleLbl.BackgroundTransparency = 1
+titleLbl.Text                   = "Crown Softworks | Key System"
+titleLbl.TextColor3             = Color3.fromRGB(175, 175, 175)
+titleLbl.TextSize               = 13
+titleLbl.Font                   = Enum.Font.GothamMedium
+titleLbl.TextXAlignment         = Enum.TextXAlignment.Left
+titleLbl.ZIndex                 = 5
+titleLbl.Parent                 = titleBar
+
+local function makeTbBtn(offX, txt, hoverCol, textSize)
+    local b = Instance.new("TextButton")
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = b
+    b.Size                   = UDim2.new(0, 46, 1, -1)
+    b.Position               = UDim2.new(1, offX, 0, 0)
+    b.BackgroundTransparency = 1
+    b.Text                   = txt
+    b.TextColor3             = Color3.fromRGB(190, 190, 190)
+    b.TextSize               = textSize or 15
+    b.Font                   = Enum.Font.GothamMedium
+    b.ZIndex                 = 6
+    b.Parent                 = titleBar
+    b.ClipsDescendants       = true
+    b.MouseEnter:Connect(function()
+        b.BackgroundTransparency = 0
+        b.BackgroundColor3 = hoverCol
+    end)
+    b.MouseLeave:Connect(function()
+        b.BackgroundTransparency = 1
+    end)
+    return b
+end
+
+local minBtn   = makeTbBtn(-138, "−",  Color3.fromRGB(55, 55, 55), 18)
+local maxBtn   = makeTbBtn(-92,  "▢",  Color3.fromRGB(55, 55, 55), 13)
+local closeBtn = makeTbBtn(-46,  "×",  Color3.fromRGB(196, 43, 28), 30)
+
+local TWEEN_INFO = TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+local maximized = false
+maxBtn.MouseButton1Click:Connect(function()
+    maximized = not maximized
+    if maximized then
+        TweenService:Create(window, TWEEN_INFO, {
+            Size = UDim2.new(1, 0, 1, 0), Position = UDim2.new(0, 0, 0, 0)
+        }):Play()
+        winCorner.CornerRadius = UDim.new(0, 0)
+    else
+        TweenService:Create(window, TWEEN_INFO, {
+            Size = NORMAL_SIZE, Position = NORMAL_POS
+        }):Play()
+        winCorner.CornerRadius = UDim.new(0, 8)
+    end
+end)
+
+local minimized = false
+
+minBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+
+    if minimized then
+        maximized = false
+        winCorner.CornerRadius = UDim.new(0, 8)
+
+        TweenService:Create(window, TWEEN_INFO, {
+            Size = UDim2.new(
+                NORMAL_SIZE.X.Scale,
+                NORMAL_SIZE.X.Offset,
+                0,
+                TITLE_H
+            ),
+            Position = NORMAL_POS
+        }):Play()
+
+    else
+        TweenService:Create(window, TWEEN_INFO, {
+            Size = NORMAL_SIZE,
+            Position = NORMAL_POS
+        }):Play()
+    end
+end)
+
+closeBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+
+local function openDiscord()
+    local invitecode = "crsoft"
+    setclipboard("https://discord.gg/" .. invitecode)
+    if request then
+        request({
+            Url = "http://127.0.0.1:6463/rpc?v=1",
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json",
+                Origin = "https://discord.com"
+            },
+            Body = HttpService:JSONEncode({
+                cmd   = "INVITE_BROWSER",
+                nonce = HttpService:GenerateGUID(false),
+                args  = { code = invitecode }
+            })
+        })
+    end
+end
+
+local terminal = Instance.new("ScrollingFrame")
+terminal.Size                   = UDim2.new(1, 0, 1, -TITLE_H)
+terminal.Position               = UDim2.new(0, 0, 0, TITLE_H)
+terminal.BackgroundTransparency = 1
+terminal.BorderSizePixel        = 0
+terminal.CanvasSize             = UDim2.new(0, 0, 0, 0)
+terminal.ScrollBarImageColor3   = Color3.fromRGB(60, 60, 60)
+terminal.ScrollBarThickness     = 4
+terminal.ScrollingDirection     = Enum.ScrollingDirection.Y
+terminal.ZIndex                 = 3
+terminal.Parent                 = window
+
+local C_WHITE  = Color3.fromRGB(204, 204, 204)
+local C_CYAN   = Color3.fromRGB(97,  214, 214)
+local C_GREEN  = Color3.fromRGB(19,  161,  14)
+local C_RED    = Color3.fromRGB(231,  72,  86)
+local C_YELLOW = Color3.fromRGB(220, 180,  50)
+
+local PAD  = 10
+local FONT = Enum.Font.Code
+local FS   = 15
+local LH   = 20
+local lineY = 10
+
+local function addLabel(txt, col, y)
+    local l = Instance.new("TextLabel")
+    l.Size                   = UDim2.new(1, -(PAD*2), 0, LH)
+    l.Position               = UDim2.new(0, PAD, 0, y)
+    l.BackgroundTransparency = 1
+    l.Text                   = txt
+    l.TextColor3             = col or C_WHITE
+    l.TextSize               = FS
+    l.Font                   = FONT
+    l.TextXAlignment         = Enum.TextXAlignment.Left
+    l.TextYAlignment         = Enum.TextYAlignment.Center
+    l.ZIndex                 = 4
+    l.Parent                 = terminal
+    terminal.CanvasSize = UDim2.new(0, 0, 0, y + LH + 20)
+terminal.CanvasPosition = Vector2.new(0, terminal.CanvasSize.Y.Offset)
+    return l
+end
+
+local function addSystemLabel(text, color)
+    local lbl = addLabel(text, color, lineY)
+    lbl:SetAttribute("System", true)
+    lineY += LH
+end
+
+addSystemLabel("[Info] Crown Softworks", C_CYAN)
+addSystemLabel("[Info] Join our Discord server for a free key: discord.gg/crsoft", C_CYAN)
+addSystemLabel("[Info] Type 'Discord' to open Discord invite", C_CYAN)
+addSystemLabel("[Info] Type 'ChangeLog' to open the changelog menu", C_CYAN)
+addSystemLabel("", C_CYAN)
+
+lineY += LH
+
+local promptTxt = "C:\\Roblox\\" .. playerName .. ">"
+local promptPx  = TextService:GetTextSize(promptTxt, FS, FONT, Vector2.new(9999, 20)).X
+local inputOffX = PAD + promptPx + 6
+
+local activeKeyBox = nil
+local inputLocked  = false
+
+local windowFocused = false
+window.InputBegan:Connect(function(i)
+    if i.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
+    if activeKeyBox and activeKeyBox.Parent then
+        if windowFocused then
+            UserInputService:ReleaseFocus()
+            windowFocused = false
+        else
+            activeKeyBox:CaptureFocus()
+            windowFocused = true
+        end
+    end
+end)
+
+local function onFocusLostExternal()
+    windowFocused = false
+end
+
+local function spawnInputRow()
+    if inputLocked then return end
+
+    local rowY = lineY
+
+    addLabel(promptTxt, C_WHITE, rowY)
+
+    local kb = Instance.new("TextBox")
+    kb.Size                   = UDim2.new(1, -(inputOffX + PAD), 0, LH)
+    kb.Position               = UDim2.new(0, inputOffX, 0, rowY)
+    kb.BackgroundTransparency = 1
+    kb.Text                   = ""
+    kb.PlaceholderText        = ""
+    kb.TextColor3             = C_WHITE
+    kb.TextSize               = FS
+    kb.Font                   = FONT
+    kb.TextXAlignment         = Enum.TextXAlignment.Left
+    kb.ClearTextOnFocus       = false
+    kb.ZIndex                 = 4
+    kb.Parent                 = terminal
+
+    lineY += LH + 2
+
+    local outLbl = addLabel("", C_WHITE, lineY)
+    lineY += LH + 2
+
+    activeKeyBox  = kb
+    windowFocused = false
+
+    local cur = Instance.new("Frame")
+    cur.Size             = UDim2.new(0, 2, 0, 15)
+    cur.BackgroundColor3 = C_WHITE
+    cur.BorderSizePixel  = 0
+    cur.ZIndex           = 6
+    cur.Parent           = terminal
+
+    local function moveCur()
+        local tw = TextService:GetTextSize(kb.Text, FS, FONT, Vector2.new(9999, 20)).X
+        cur.Position = UDim2.new(0, inputOffX + tw + 1, 0, rowY + 2)
+    end
+    moveCur()
+    kb:GetPropertyChangedSignal("Text"):Connect(moveCur)
+
+    local blinking = true
+    task.spawn(function()
+        while blinking and screenGui.Parent do
+            cur.BackgroundTransparency = 0
+            task.wait(0.53)
+            if not blinking then break end
+            cur.BackgroundTransparency = 1
+            task.wait(0.53)
+        end
+        cur.BackgroundTransparency = 0
+        cur.Visible = false
+    end)
+
+    task.wait(0.05)
+    kb:CaptureFocus()
+    windowFocused = true
+
+    kb.FocusLost:Connect(function(enterPressed)
+        if not enterPressed then
+            onFocusLostExternal()
+            return
+        end
+
+        inputLocked = true
+        blinking    = false
+        kb.TextEditable = false
+
+        local typed = kb.Text
+
+        if typed == "Discord" then
+            outLbl.Text       = "[Info] Opening Discord invite..."
+            outLbl.TextColor3 = C_CYAN
+            task.wait(0.3)
+            openDiscord()
+            outLbl.Text       = "[Success] Discord invite opened!"
+            outLbl.TextColor3 = C_GREEN
+            task.wait(0.5)
+            inputLocked = false
+            spawnInputRow()
+            return
+        end
+
+if typed == "ChangeLog" then
+    outLbl.TextColor3 = C_CYAN
+    
+    local changelogText = {
+        "[ChangeLog] Crown Softworks",
+        " ",
+        "[+] New key system",
+        "[+] Added Loader",
+        "",
+        "Script ChangeLog:",
+        " ",
+        "[-] Removed Version hub rework",
+        "[+] Added 99 nights script",
+        "[+] Added ST Blockade script",
+        " "
+    }
+
+    outLbl.Text = ""
+
+    for _, line in ipairs(changelogText) do
+        outLbl.Text = line
+        task.wait(0.6)
+        lineY += LH
+        outLbl = addLabel("", C_WHITE, lineY)
+    end
+
+    inputLocked = false
+    spawnInputRow()
+    return
+end
+
+
+if typed == "Clear" then
+    for _, obj in ipairs(terminal:GetChildren()) do
+        if obj:IsA("TextLabel") or obj:IsA("TextBox") then
+            if not obj:GetAttribute("System") then
+                obj:Destroy()
+            end
+        end
+    end
+
+  
+    lineY = 10
+    for _, obj in ipairs(terminal:GetChildren()) do
+        if obj:IsA("TextLabel") and obj:GetAttribute("System") then
+            obj.Position = UDim2.new(0, PAD, 0, lineY)
+            lineY += LH
+        end
+    end
+
+    terminal.CanvasSize = UDim2.new(0, 0, 0, lineY + 20)
+
+    inputLocked = false
+    spawnInputRow()
+    return
+end
+
+
+        local serverKey = fetchValidKey()
+
+if not serverKey then
+    outLbl.Text       = "[Error] Failed to connect to key server"
+    outLbl.TextColor3 = C_RED
+    task.wait(0.6)
+    inputLocked = false
+    spawnInputRow()
+    return
+end
+
+if typed ~= serverKey then
+    outLbl.Text       = "[Error] key is incorrect"
+    outLbl.TextColor3 = C_RED
+    task.wait(0.4)
+    inputLocked = false
+    spawnInputRow()
+    return
+end
+
+        for _, d in ipairs({".", "..", "...", ".", "..", "..."}) do
+            outLbl.Text       = "[Success] Key is valid, loading" .. d
+            outLbl.TextColor3 = C_GREEN
+            task.wait(0.72)
+        end
+
+        outLbl.Text       = "[Info] Loaded!"
+        outLbl.TextColor3 = C_CYAN
+        task.wait(0.9)
+
+        local ti = TweenInfo.new(0.5)
+        for _, obj in ipairs(screenGui:GetDescendants()) do
+            if obj:IsA("Frame") then
+                TweenService:Create(obj, ti, {BackgroundTransparency = 1}):Play()
+            elseif obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+                TweenService:Create(obj, ti, {TextTransparency = 1}):Play()
+            elseif obj:IsA("ImageLabel") then
+                TweenService:Create(obj, ti, {ImageTransparency = 1}):Play()
+            end
+        end
+        task.wait(0.55)
+        screenGui:Destroy()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ExclusiveVersionGithubIsLoaded/CrownSoftworks/refs/heads/main/CopyDiscord.lua"))()
+
+    end)
+end
+
+spawnInputRow()
+
+local dragging, dragStart, winStart
+titleBar.InputBegan:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging  = true
+        dragStart = Vector2.new(i.Position.X, i.Position.Y)
+        winStart  = window.Position
+    end
+end)
+titleBar.InputEnded:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+UserInputService.InputChanged:Connect(function(i)
+    if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
+        window.Position = UDim2.new(
+            winStart.X.Scale, winStart.X.Offset + (i.Position.X - dragStart.X),
+            winStart.Y.Scale, winStart.Y.Offset + (i.Position.Y - dragStart.Y)
+        )
+    end
+end)
