@@ -1,21 +1,15 @@
 
 local BANNED_GAME_ID = 4283416256
 local userKey = getgenv().Key or ""
+
+repeat task.wait() until game.PlaceId ~= 0
+
 local serverKey = game:HttpGet("https://crownsoftworks.neocities.org/KKKKEY/LOLOLOLO.txt"):gsub("%s+", "")
 
-if game.PlaceId == BANNED_GAME_ID then
-    
+if game:GetService("RunService"):IsClient() and game.PlaceId == BANNED_GAME_ID then
     if userKey ~= serverKey then
-        return 
+        return
     end
-    
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/ExclusiveVersionGithubIsLoaded/CrownSoftworks/refs/heads/main/CopyDiscord.lua"))()
-    return
-end
-
-
-if userKey == serverKey then
-    
     loadstring(game:HttpGet("https://raw.githubusercontent.com/ExclusiveVersionGithubIsLoaded/CrownSoftworks/refs/heads/main/CopyDiscord.lua"))()
     return
 end
